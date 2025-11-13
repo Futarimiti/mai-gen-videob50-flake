@@ -1,5 +1,5 @@
 from pytubefix import YouTube, Search
-from bilibili_api import login, user, search, video, Credential, sync, HEADERS
+from bilibili_api import login_v2, user, search, video, Credential, sync, HEADERS
 from utils.PageUtils import download_temp_image_to_static
 from typing import Tuple
 from abc import ABC, abstractmethod
@@ -316,7 +316,7 @@ class BilibiliDownloader(Downloader):
 
     def log_in(self, credential_path):
         # credential = login.login_with_qrcode_term() # 在终端打印二维码登录
-        credential = login.login_with_qrcode() # 使用tkinter GUI显示二维码登录
+        credential = login_v2.login_with_qrcode() # 使用tkinter GUI显示二维码登录
         try:
             credential.raise_for_no_bili_jct() # 判断是否成功
             credential.raise_for_no_sessdata() # 判断是否成功
