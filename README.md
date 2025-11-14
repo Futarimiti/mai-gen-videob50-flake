@@ -28,3 +28,12 @@ variable. The directory will be automatically created if doesn't exist.
 ```bash
 nix run github:Futarimiti/mai-gen-videob50-flake
 ```
+
+## Known issues
+
+- [ ] Changing themes is not possible since that would need to change
+      `.streamlit/config.toml` which is immutable in the store
+- [ ] Cannot login to bilibili due to
+      `module 'bilibili_api.login_v2' has no attribute 'login_with_qrcode'`
+- [ ] Cannot download videos due to
+      `'VideoDownloadURLDataDetecter' object has no attribute 'check_flv_stream'`
