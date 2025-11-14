@@ -1,9 +1,10 @@
 import os
 from datetime import datetime
+from utils.XdgUtils import app_data_dir
 
 def get_user_base_dir(username):
     """Get base directory for user data"""
-    return os.path.join("b50_datas", username)
+    return os.path.join(app_data_dir(), "b50_datas", username)
 
 def get_user_version_dir(username, timestamp=None):
     """Get versioned directory for user data"""
