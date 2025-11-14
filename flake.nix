@@ -47,9 +47,10 @@
             pytubefix
             pyyaml
             requests
+            socksio
             streamlit
-            streamlit-sortables
             streamlit-searchbox
+            streamlit-sortables
             tkinter
             tqdm
             watchdog
