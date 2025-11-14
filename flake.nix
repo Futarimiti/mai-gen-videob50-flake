@@ -17,7 +17,18 @@
       system:
       let
         pyVersion = "312";
-        pkgs = import nixpkgs { inherit system; };
+        pythonPackagesOverlay = self: super: {
+          pythonPackagesExtensions = super.pythonPackagesExtensions ++ [
+            (pyself: pysuper: {
+              streamlit-sortables = pyself.callPackage ./nix/streamlit-sortables.nix { };
+              streamlit-searchbox = pyself.callPackage ./nix/streamlit-searchbox.nix { };
+            })
+          ];
+        };
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ pythonPackagesOverlay ];
+        };
         python = pkgs."python${pyVersion}";
         pyDeps =
           pypkgs: with pypkgs; [
@@ -37,11 +48,14 @@
             pyyaml
             requests
             streamlit
+            streamlit-sortables
+            streamlit-searchbox
             tkinter
             tqdm
           ];
       in
       {
+        inherit pkgs;
         packages = rec {
           mai-gen-videob50 =
             let
