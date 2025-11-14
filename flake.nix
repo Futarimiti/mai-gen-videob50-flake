@@ -63,7 +63,7 @@
             in
             pkgs.stdenv.mkDerivation {
               pname = "mai-gen-videob50";
-              version = "1.0.0";
+              version = "0.6.5";
               src = ./.;
               buildInputs = [ pyEnv ];
               propagatedBuildInputs = [ pkgs.ffmpeg ];
