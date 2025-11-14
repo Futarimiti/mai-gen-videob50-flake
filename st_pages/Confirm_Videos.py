@@ -7,6 +7,7 @@ from datetime import datetime
 from utils.PageUtils import escape_markdown_text, load_record_config, save_record_config, read_global_config
 from utils.PathUtils import get_data_paths, get_user_versions
 from utils.WebAgentUtils import download_one_video
+from utils.XdgUtils import app_data_dir
 
 G_config = read_global_config()
 
@@ -65,7 +66,7 @@ with st.expander("更换B50存档"):
 def st_download_video(placeholder, dl_instance, G_config, b50_config):
     search_wait_time = G_config['SEARCH_WAIT_TIME']
     download_high_res = G_config['DOWNLOAD_HIGH_RES']
-    video_download_path = f"./videos/downloads"
+    video_download_path = f"{app_data_dir()}/videos/downloads"
     with placeholder.container(border=True, height=560):
         with st.spinner("正在下载视频……"):
             progress_bar = st.progress(0)

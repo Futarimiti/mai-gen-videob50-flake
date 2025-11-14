@@ -2,6 +2,7 @@ import streamlit as st
 from utils.PageUtils import change_theme, update_music_metadata, DEFAULT_STYLE_CONFIG_FILE_PATH
 from utils.themes import THEME_COLORS, DEFAULT_STYLES
 from utils.WebAgentUtils import st_init_cache_pathes
+from utils.XdgUtils import app_data_dir
 import datetime
 import os
 import json
@@ -91,7 +92,7 @@ st.write("更新乐曲数据库")
 with st.container(border=True):
     try:
         # 检查乐曲元数据更新（设定24小时更新冷却时间）
-        metadata_path = "./music_metadata/maimaidx/songs.json"
+        metadata_path = f"{app_data_dir()}/music_metadata/maimaidx/songs.json"
         if should_update_metadata(24) or not os.path.exists(metadata_path):
             update_music_metadata()
             st.success("乐曲元数据已更新")
