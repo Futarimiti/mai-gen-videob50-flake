@@ -74,7 +74,7 @@
                 cat > $out/bin/mai-gen-videob50 << EOF
                 #!${pkgs.bash}/bin/bash
                 cd $out/share/mai-gen-videob50
-                exec ${pyEnv}/bin/streamlit run st_app.py
+                exec ${pyEnv}/bin/streamlit run st_app.py --server.showEmailPrompt false
                 EOF
                 chmod +x $out/bin/mai-gen-videob50
               '';
