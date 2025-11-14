@@ -55,30 +55,29 @@
             watchdog
           ];
       in
+      let
+        pyEnv = python.withPackages pyDeps;
+      in
       {
         inherit pkgs;
         packages = rec {
-          mai-gen-videob50 =
-            let
-              pyEnv = python.withPackages pyDeps;
-            in
-            pkgs.stdenv.mkDerivation {
-              pname = "mai-gen-videob50";
-              version = "0.6.5";
-              src = ./.;
-              buildInputs = [ pyEnv ];
-              propagatedBuildInputs = [ pkgs.ffmpeg ];
-              installPhase = ''
-                mkdir -p $out/bin $out/share/mai-gen-videob50
-                cp -r . $out/share/mai-gen-videob50
-                cat > $out/bin/mai-gen-videob50 << EOF
-                #!${pkgs.bash}/bin/bash
-                cd $out/share/mai-gen-videob50
-                exec ${pyEnv}/bin/streamlit run st_app.py --server.showEmailPrompt false
-                EOF
-                chmod +x $out/bin/mai-gen-videob50
-              '';
-            };
+          mai-gen-videob50 = pkgs.stdenv.mkDerivation {
+            pname = "mai-gen-videob50";
+            version = "0.6.5";
+            src = ./.;
+            buildInputs = [ pyEnv ];
+            propagatedBuildInputs = [ pkgs.ffmpeg-full ];
+            installPhase = ''
+              mkdir -p $out/bin $out/share/mai-gen-videob50
+              cp -r . $out/share/mai-gen-videob50
+              cat > $out/bin/mai-gen-videob50 << EOF
+              #!${pkgs.bash}/bin/bash
+              cd $out/share/mai-gen-videob50
+              exec ${pyEnv}/bin/streamlit run st_app.py --server.showEmailPrompt false
+              EOF
+              chmod +x $out/bin/mai-gen-videob50
+            '';
+          };
           default = mai-gen-videob50;
         };
         apps = rec {
@@ -89,7 +88,9 @@
         };
         devShells.default = pkgs.mkShell {
           packages = [
-            (python.withPackages (pypkgs: pyDeps pypkgs ++ [ pypkgs.ipython ]))
+            pyEnv
+            python.pkgs.ipython
+            pkgs.ffmpeg-full
           ];
         };
       }
