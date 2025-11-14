@@ -52,6 +52,7 @@
             streamlit-searchbox
             tkinter
             tqdm
+            watchdog
           ];
       in
       {
