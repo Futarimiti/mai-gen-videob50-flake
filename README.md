@@ -37,3 +37,5 @@ nix run github:Futarimiti/mai-gen-videob50-flake
       `module 'bilibili_api.login_v2' has no attribute 'login_with_qrcode'`
 - [ ] Cannot download videos due to
       `'VideoDownloadURLDataDetecter' object has no attribute 'check_flv_stream'`
+- [ ] Cannot render video due to permission denied for creating audio file in
+      project root
