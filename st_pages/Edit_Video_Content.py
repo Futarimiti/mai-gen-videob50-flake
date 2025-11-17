@@ -6,6 +6,7 @@ from utils.PageUtils import LEVEL_LABELS, load_style_config, open_file_explorer,
 from utils.PathUtils import get_data_paths, get_user_versions
 from utils.WebAgentUtils import st_gene_resource_config
 from utils.VideoUtils import render_one_video_clip
+from utils.XdgUtils import app_data_dir
 
 DEFAULT_VIDEO_MAX_DURATION = 180
 
@@ -68,7 +69,7 @@ if not save_id:
 
 image_output_path = current_paths['image_dir']
 video_config_output_file = current_paths['video_config']
-video_download_path = f"./videos/downloads"
+video_download_path = f"{app_data_dir()}/videos/downloads"
 
 # 通过向empty容器添加新的container，更新预览
 def update_preview(preview_placeholder, config, current_index):
@@ -330,7 +331,7 @@ if video_config:
 
 with st.expander("额外设置和配置文件管理"):
     video_config_file = current_paths['video_config']
-    video_download_path = f"./videos/downloads"
+    video_download_path = f"{app_data_dir()}/videos/downloads"
     st.write("如果因为手动更新b50等原因而需要检查和修改配置，点击下方按钮打开配置文件夹。")
     if st.button("打开配置文件夹", key=f"open_folder_video_config"):
         absolute_path = os.path.abspath(os.path.dirname(video_config_file))

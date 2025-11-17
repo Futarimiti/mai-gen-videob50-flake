@@ -9,6 +9,7 @@ import requests
 from utils.dxnet_extension import ChartManager
 from utils.PageUtils import DATA_CONFIG_VERSION, format_record_songid
 from utils.DataUtils import FC_PROXY_ENDPOINT
+from utils.XdgUtils import app_data_dir
 
 LEVEL_LABEL = ["Basic", "Advanced", "Expert", "Master", "Re:MASTER"]
 
@@ -195,7 +196,7 @@ def filter_maimai_ap_data(fish_data, top_len=50):
 ################################################
 
 def find_origin_b50(username, file_type = "html"):
-    DATA_ROOT = f"./b50_datas/{username}"
+    DATA_ROOT = f"{app_data_dir()}/b50_datas/{username}"
     # 1. Check for the {username}.html
     user_data_file = f"{DATA_ROOT}/{username}.{file_type}"
     if os.path.exists(user_data_file):

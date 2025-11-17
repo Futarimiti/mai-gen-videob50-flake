@@ -10,6 +10,7 @@ from utils.PathUtils import *
 from utils.PageUtils import DATA_CONFIG_VERSION, LEVEL_LABELS, format_record_songid, load_full_config_safe, remove_invalid_chars, open_file_explorer
 from utils.DataUtils import search_songs
 from utils.dxnet_extension import get_rate, parse_level, compute_rating
+from utils.XdgUtils import app_data_dir
 
 # 检查streamlit扩展组件安装情况
 try:
@@ -30,7 +31,7 @@ st.header("编辑B50存档 / 创建自定义B50存档")
 @st.cache_data
 def load_songs_data():
     try:
-        with open("./music_metadata/maimaidx/songs.json", 'r', encoding='utf-8') as f:
+        with open(f"{app_data_dir()}/music_metadata/maimaidx/songs.json", 'r', encoding='utf-8') as f:
             return json.load(f)
     except Exception as e:
         st.error(f"加载歌曲数据失败: {e}")

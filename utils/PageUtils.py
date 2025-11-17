@@ -9,8 +9,9 @@ import subprocess
 import platform
 from moviepy import VideoFileClip
 from utils.DataUtils import download_metadata, encode_song_id, CHART_TYPE_MAP_MAIMAI
+from utils.XdgUtils import app_data_dir
 
-DEFAULT_STYLE_CONFIG_FILE_PATH = "./static/video_style_config.json"
+DEFAULT_STYLE_CONFIG_FILE_PATH = f"{app_data_dir()}/video_style_config.json"
 DATA_CONFIG_VERSION = "0.5"
 LEVEL_LABELS = {
     0: "BASIC",
@@ -105,7 +106,7 @@ def load_full_config_safe(config_file, username):
 
 def update_music_metadata():
     for game_type in ['maimaidx']:
-        metadata_dir = './music_metadata/maimaidx'
+        metadata_dir = f'{app_data_dir()}/music_metadata/maimaidx'
         if not os.path.exists(metadata_dir):
             os.makedirs(metadata_dir, exist_ok=True)
         json_path = os.path.join(metadata_dir, f"songs.json")
@@ -116,7 +117,7 @@ def update_music_metadata():
 
 
 def load_music_metadata(game_type="maimaidx"):
-    metadata_dir = f'./music_metadata/{game_type}'
+    metadata_dir = f'{app_data_dir()}/music_metadata/{game_type}'
     json_path = os.path.join(metadata_dir, f"songs.json")
     if os.path.exists(json_path):
         with open(json_path, 'r', encoding='utf-8') as f:
@@ -165,18 +166,24 @@ def load_style_config(config_file=DEFAULT_STYLE_CONFIG_FILE_PATH):
             return json.load(f)
     return None
 
+
+def init_global_config(dest):
+    shutil.copyfile("./global_config.yaml", dest)
+
+
 # r/w gloabl_config.yaml
 def read_global_config():
-    if os.path.exists("global_config.yaml"):
-        with open("global_config.yaml", "r", encoding='utf-8') as f:
-            return yaml.load(f, Loader=yaml.FullLoader)
-    else:
-        raise FileNotFoundError("global_config.yaml not found")
+    path = f"{app_data_dir()}/global_config.yaml"
+    if not os.path.exists(path):
+        init_global_config(path)
+    with open(path, "r", encoding='utf-8') as f:
+        return yaml.load(f, Loader=yaml.FullLoader)
 
 
 def write_global_config(config):
+    path = f"{app_data_dir()}/global_config.yaml"
     try:
-        with open("global_config.yaml", "w", encoding='utf-8') as f:
+        with open(path, "w", encoding='utf-8') as f:
             yaml.dump(config, f)
     except Exception as e:
         print(f"Error writing global config: {e}")
@@ -222,7 +229,7 @@ def change_theme(theme_dict):
             f.write("")  # 清空文件以使用默认主题
 
 
-def download_temp_image_to_static(image_url, local_dir="./static/thumbnails"):
+def download_temp_image_to_static(image_url, local_dir=f"{app_data_dir()}/static/thumbnails"):
     """
     下载图片到streamlit静态托管的本地目录。
     """

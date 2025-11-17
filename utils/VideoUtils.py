@@ -2,6 +2,7 @@ import os
 import numpy as np
 import subprocess
 import traceback
+import tempfile
 from PIL import Image, ImageFilter
 from moviepy import VideoFileClip, ImageClip, TextClip, AudioFileClip, CompositeVideoClip, CompositeAudioClip, concatenate_videoclips
 from moviepy import vfx, afx
@@ -500,7 +501,7 @@ def gene_pure_black_video(output_path, duration, resolution):
     """
     black_frame = create_blank_image(resolution[0], resolution[1], color=(0, 0, 0, 1))
     clip = ImageClip(black_frame).with_duration(duration)
-    clip.write_videofile(output_path, fps=30)
+    clip.write_videofile(output_path, fps=30, temp_audiofile_path=tempfile.TemporaryDirectory())
 
 
 def get_combined_ending_clip(ending_clips, combined_start_time, trans_time):
@@ -593,7 +594,8 @@ def render_all_video_clips(resources, style_config,
             ])
         # 直接渲染clip为视频文件
         print(f"正在合成视频片段: {prefix}_{config['id']}.mp4")
-        clip.write_videofile(output_file, fps=30, threads=4, preset='ultrafast', bitrate=video_bitrate)
+        clip.write_videofile(output_file, fps=30, threads=4, preset='ultrafast', bitrate=video_bitrate,
+                             temp_audiofile_path=tempfile.TemporaryDirectory())
         clip.close()
         # 强制垃圾回收
         del clip
@@ -626,7 +628,8 @@ def render_one_video_clip(config, style_config, video_file_name, video_output_pa
     try:
         clip = create_video_segment(config, style_config, video_res)
         clip.write_videofile(os.path.join(video_output_path, video_file_name), 
-                             fps=30, threads=4, preset='ultrafast', bitrate=video_bitrate)
+                             fps=30, threads=4, preset='ultrafast', bitrate=video_bitrate,
+                             temp_audiofile_path=tempfile.TemporaryDirectory())
         clip.close()
         return {"status": "success", "info": f"合成视频片段{video_file_name}成功"}
     except Exception as e:
@@ -646,7 +649,8 @@ def render_complete_full_video(configs, style_config, username,
                                         trans_time=video_trans_time, 
                                         full_last_clip=full_last_clip)
         final_video.write_videofile(os.path.join(video_output_path, f"{username}_FULL_VIDEO.mp4"), 
-                                    fps=30, threads=4, preset='ultrafast', bitrate=video_bitrate)
+                                    fps=30, threads=4, preset='ultrafast', bitrate=video_bitrate,
+                                    temp_audiofile_path=tempfile.TemporaryDirectory())
         final_video.close()
         return {"status": "success", "info": f"合成完整视频成功"}
     except Exception as e:

@@ -6,6 +6,7 @@ from datetime import datetime
 from utils.user_gamedata_handlers import fetch_user_gamedata, update_b50_data_int
 from utils.PageUtils import *
 from utils.PathUtils import *
+from utils.XdgUtils import app_data_dir
 import glob
 
 maimai_level_label_list = list(LEVEL_LABELS.values())
@@ -455,8 +456,8 @@ if st.session_state.get('config_saved', False):
         
         st.markdown("4. 点击下方按钮打开视频下载目录。请前往旧版本生成器的`videos\downloads`目录，将已下载的视频文件复制到新的目录。如果还没有下载任何视频文件，可以跳过此步骤。")
         if st.button("打开视频下载目录"):
-            open_file_explorer(os.path.abspath("./videos/downloads"))
-        
+            open_file_explorer(os.path.abspath(f"{app_data_dir()}/videos/downloads"))
+
         st.markdown("5. 完成上述步骤后，请回到页面上方，点击“查看和修改当前存档的b50数据”按钮，检查存档数据是否正常。**图片文件不会迁移，您仍需进入下一步重新生成图片文件**。如果您已经完成了下载视频的迁移，在图片生成后可以直接跳转第4步进行内容编辑。")
 else:
     st.warning("请先确定用户名！")

@@ -8,6 +8,7 @@ from utils.themes import DEFAULT_STYLES
 from utils.PageUtils import read_global_config, write_global_config, DEFAULT_STYLE_CONFIG_FILE_PATH
 from utils.ImageUtils import generate_single_image
 from utils.VideoUtils import get_video_preview_frame
+from utils.XdgUtils import app_data_dir
 
 st.header("视频样式配置")
 
@@ -16,8 +17,8 @@ video_style_config_path = DEFAULT_STYLE_CONFIG_FILE_PATH
 
 # 配置素材文件夹
 default_static_dir = "./static/assets"
-user_static_dir = "./static/user"
-temp_static_dir = "./static/thumbnails"
+user_static_dir = f"{app_data_dir()}/static/user"
+temp_static_dir = f"{app_data_dir()}/static/thumbnails"
 os.makedirs(user_static_dir, exist_ok=True)
 os.makedirs(temp_static_dir, exist_ok=True)
 os.makedirs(os.path.join(user_static_dir, "backgrounds"), exist_ok=True)

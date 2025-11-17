@@ -3,6 +3,7 @@ import os
 import random
 
 from utils.video_crawler import PurePytubefixDownloader, BilibiliDownloader
+from utils.XdgUtils import app_data_dir
 
 def get_keyword(downloader_type, title_name, level_index, type):
     match level_index:
@@ -86,11 +87,13 @@ def download_one_video(downloader, song, video_download_path, high_res=False):
 
 
 def st_init_cache_pathes():
+    j = os.path.join
+    base = app_data_dir()
     cache_pathes = [
-        f"./b50_datas",
-        f"./videos",
-        f"./videos/downloads",
-        f"./cred_datas"
+        j(base, "b50_datas"),
+        j(base, "videos"),
+        j(base, "videos", "downloads"),
+        j(base, "cred_datas"),
     ]
     for path in cache_pathes:
         if not os.path.exists(path):

@@ -9,6 +9,7 @@ from utils.PageUtils import load_record_config, save_record_config, read_global_
 from utils.PathUtils import get_data_paths, get_user_versions
 from utils.video_crawler import PurePytubefixDownloader, BilibiliDownloader
 from utils.WebAgentUtils import search_one_video
+from utils.XdgUtils import app_data_dir
 
 G_config = read_global_config()
 _downloader = G_config.get('DOWNLOADER', 'bilibili')
@@ -172,7 +173,7 @@ def st_init_downloader():
         dl_instance = BilibiliDownloader(
             proxy=proxy_address if use_proxy else None,
             no_credential=no_credential,
-            credential_path="./cred_datas/bilibili_cred.pkl",
+            credential_path=f"{app_data_dir()}/cred_datas/bilibili_cred.pkl",
             search_max_results=search_max_results
         )
         bilibili_username = dl_instance.get_credential_username()
