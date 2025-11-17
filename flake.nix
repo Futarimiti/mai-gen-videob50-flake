@@ -20,8 +20,17 @@
           overlays = import ./nix/nixpkgs-overlays { };
         };
         python3 = pkgs.python310;
+        thisPackage = import ./default.nix { inherit pkgs python3; };
       in
       {
+        packages = rec {
+          mai-gen-videob50 = thisPackage;
+          default = mai-gen-videob50;
+        };
+        apps = rec {
+          mai-gen-videob50 = flake-utils.lib.mkApp { drv = thisPackage; };
+          default = mai-gen-videob50;
+        };
         devShells.default = import ./shell.nix { inherit pkgs python3; };
       }
     );
